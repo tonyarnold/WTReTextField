@@ -159,16 +159,16 @@
         } else if (_countTo == 1) {
             pat = @"?";
         } else {
-            pat = [NSString stringWithFormat:@"{,%u}", _countTo];
+            pat = [NSString stringWithFormat:@"{,%tu}", _countTo];
         }
     } else if (_countFrom == 1 && _countTo == NSUIntegerMax) {
         pat = @"+";
     } else if (_countFrom == _countTo) {
-        pat = [NSString stringWithFormat:@"{%u}", _countFrom];
+        pat = [NSString stringWithFormat:@"{%tu}", _countFrom];
     } else if (_countTo == NSUIntegerMax) {
-        pat = [NSString stringWithFormat:@"{%u,}", _countFrom];
+        pat = [NSString stringWithFormat:@"{%tu,}", _countFrom];
     } else {
-        pat = [NSString stringWithFormat:@"{%u,%u}", _countFrom, _countTo];
+        pat = [NSString stringWithFormat:@"{%tu,%tu}", _countFrom, _countTo];
     }
     
     if (_greedy) return pat;
@@ -508,7 +508,7 @@
 - (void)raiseParserError:(NSString*)error atPos:(NSUInteger)pos
 {
     NSString *pat = [NSString stringWithFormat:@"%@ \u25B6%@", [_pattern substringToIndex:pos], [_pattern substringFromIndex:pos]];
-    @throw [NSException exceptionWithName:@"Parse error" reason:[NSString stringWithFormat:@"%@ @ pos %d: %@", error, pos, pat] userInfo:nil];
+    @throw [NSException exceptionWithName:@"Parse error" reason:[NSString stringWithFormat:@"%@ @ pos %zd: %@", error, pos, pat] userInfo:nil];
 }
 
 - (WTReCharacterBase*)parseCharset:(NSString*)pattern inRange:(NSRange)range enclosed:(BOOL)enclosed
